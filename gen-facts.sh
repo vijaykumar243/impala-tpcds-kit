@@ -10,6 +10,7 @@ start=(NODENUM-1)*$count+1
 
 # hard coded for the store_sales table for now
 t=store_sales
+t2=store_returns
 
 for (( c=$start; c<($count+$start); c++ ))
 do
@@ -21,7 +22,10 @@ do
     -PARALLEL ${DSDGEN_TOTAL_THREADS} \
     -DISTRIBUTIONS ${TPCDS_ROOT}/tools/tpcds.idx \
     -TERMINATE N \
-    -FILTER Y \
-    -QUIET Y | hdfs dfs -put - ${FLATFILE_HDFS_ROOT}/${t}/${t}_${c}_${DSDGEN_TOTAL_THREADS}.dat &
+    -_FILTER Y \
+    -QUIET Y 
+  hdfs dfs -put ${t}_${c}_${DSDGEN_TOTAL_THREADS}.dat  ${FLATFILE_HDFS_ROOT}/${t}/${t}_${c}_${DSDGEN_TOTAL_THREADS}.dat 
+  rm ${t}_${c}_${DSDGEN_TOTAL_THREADS}.dat
+  hdfs dfs -put ${t2}_${c}_${DSDGEN_TOTAL_THREADS}.dat  ${FLATFILE_HDFS_ROOT}/${t2}/${t2}_${c}_${DSDGEN_TOTAL_THREADS}.dat 
+  rm ${t2}_${c}_${DSDGEN_TOTAL_THREADS}.dat
 done
-wait

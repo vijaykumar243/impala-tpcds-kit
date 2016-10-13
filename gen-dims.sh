@@ -9,8 +9,10 @@ do
     -SCALE ${TPCDS_SCALE_FACTOR} \
     -DISTRIBUTIONS ${TPCDS_ROOT}/tools/tpcds.idx \
     -TERMINATE N \
-    -FILTER Y \
-    -QUIET Y | hdfs dfs -put - ${FLATFILE_HDFS_ROOT}/${t}/${t}.dat &
+    -_FILTER Y \
+    -QUIET Y 
+   hdfs dfs -put ${t}.dat ${FLATFILE_HDFS_ROOT}/${t}/${t}.dat 
+   rm ${t}.dat
 done
 wait
 
