@@ -19,9 +19,14 @@ Dimension Tables:
 * PROMOTION
 * STORE
 
+* ADDED ADTL TABLES NOT IN LIST ABOVE
+
+
 Fact Tables:
 
 * STORE_SALES
+
+* ADDED WEB AND CATALOG SALES AND RETURNS TABLES
 
 ## Environment Setup Steps
 
@@ -60,16 +65,29 @@ These scripts also assume that your $HOME directory is the same path on all Data
 Data is landed directly in HDFS so there is no requirement for any local storage.
 
 * `hdfs-mkdirs.sh` - Make HDFS directories for each table.
+* `hdfs-mkdirs2.sh` - Make HDFS directories for each table. Added tables not in original set.
 * `gen-dims.sh` - Generate dimension flat files (runs on one DataNode only).
-* `run-gen-facts.sh` - Runs `gen-facts.sh` on each DataNode via ssh to generate STORE_SALES flat files.
+* `gen-dims2.sh` - Generate dimension flat files (runs on one DataNode only). Added tables not in original set.
+* `run-gen-facts.sh` - Runs `gen-facts.sh` on each DataNode via ssh to generate STORE_SALES flat files. Added STORE_RETURNS.
+* `run-gen-catalog.sh` - Runs `gen-catalog.sh` on each DataNode via ssh to generate CATALOG_SALES and CATALOG_RETURNS flat files. Additional tables not in original set.
+* `run-gen-web.sh` - Runs `gen-web.sh` on each DataNode via ssh to generate WEB_SALES and WEB_RETURNS flat files. Additional tables not in original set.
 
 ## Data Loading
 
 ### Impala Steps
 * `impala-create-external-tables.sh` - Creates a Hive database and the external tables pointing to flat files.
+* `impala-create-external-tables-*.sh` - Creates a Hive database and the external tables pointing to flat files. Additional tables not in original set - script per table.
 * `impala-load-dims.sh` - Load dimension tables (no format specified, modify as necessary, but not required).
+* `impala-load-dims2.sh` - Load dimension tables (no format specified, modify as necessary, but not required). Additional tables not in original set.
 * `impala-load-store_sales.sh` - Load STORE_SALES table which uses dynamic partitioning, one partition per calendar day.
+* `impala-load-web_sales.sh` - Load WEB_SALES table which uses dynamic partitioning, one partition per calendar day. Additional table not in original set.
+* `impala-load-catalog_sales.sh` - Load CATALOG_SALES table which uses dynamic partitioning, one partition per calendar day. Additional table not in original set.
+* `impala-load-store_returns.sh` - Load STORE_RETURNS table which uses dynamic partitioning, one partition per calendar day. Additional table not in original set.
+* `impala-load-web_returns.sh` - Load WEB_RETURNS table which uses dynamic partitioning, one partition per calendar day. Additional table not in original set.
+* `impala-load-catalog_returns.sh` - Load CATALOG_RETURNS table which uses dynamic partitioning, one partition per calendar day. Additional table not in original set.
+* `impala-load-inventory.sh` - Load INVENTORY table which uses dynamic partitioning, one partition per calendar day. Additional table not in original set.
 * `impala-compute-stats.sh` - Gather table and column statistics on all tables.
+* `impala-compute-stats2.sh` - Gather table and column statistics on all tables. Additional tables not in original set.
 
 ## Queries
 
